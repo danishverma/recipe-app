@@ -9,14 +9,13 @@ export const RecipeAppSlice = createSlice({
     name: 'recipeApp',
     initialState,
     reducers: {
-        handleSearchChange: (state, action) => {
+        handleSearchChange: (state, action: PayloadAction<string>) => {
             state.searchInput = action.payload
         },
-        searchResult: (state, action) => {
+        searchResult: (state, action: PayloadAction<SearchResult[]>) => {
             state.searchResult = action.payload
         }
     }
 })
 export const {handleSearchChange, searchResult} = RecipeAppSlice.actions
-// export const selectRecipeApp = (state: RootState) => state.receipe.value
 export default RecipeAppSlice.reducer

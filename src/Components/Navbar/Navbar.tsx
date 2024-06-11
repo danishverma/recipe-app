@@ -4,8 +4,9 @@ import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { handleSearchChange, searchResult } from "../../features/recipeAppSlice";
+import { RootState } from "../../app/store";
 const Navbar = () => {
-    const searchInput = useSelector((state: any) => state.receipe.searchInput)
+    const searchInput = useSelector((state: RootState) => state.recipe.searchInput)
     const dispatch = useDispatch()
     const apiUrl = process.env.REACT_APP_RECIPE_SEARCH_API
     const params = {
@@ -16,8 +17,8 @@ const Navbar = () => {
     }
     const searchResponse = (event: React.FormEvent) => {
         event.preventDefault()
-        axios.get(`${apiUrl}`, {params})
-        .then(res=>{console.log(res.data.hits); dispatch(searchResult(res.data.hits))})
+        axios.get(`${apiUrl}`, { params })
+            .then(res => { console.log(res.data.hits); dispatch(searchResult(res.data.hits)) })
     }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(handleSearchChange(event.target.value))

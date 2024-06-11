@@ -1,49 +1,13 @@
-
-// import { useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import RecipeModal from '../Recipe-Modal/RecipeModal';
-
-// const RecipeWigets = () => {
-//     const searchResult = useSelector((state: any) => state.receipe.searchResult);
-//     const [showModal, setShowModal] = useState(false);
-//     const [selectedRecipe, setSelectedRecipe] = useState(null);
-//     const openModal = (recipe:any) => {
-//         setSelectedRecipe(recipe);
-//         setShowModal(true);
-//     };
-//     const closeModal = () => {
-//         setShowModal(false);
-//     };
-//     return (
-//         <div className="recipe-widget-container grid grid-cols-5 m-5">
-//             {searchResult.length > 0 ? searchResult.map((item: any, index: number) => (
-//                 <div key={index} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-5">
-//                     <a href="#" onClick={() => openModal(item.recipe)}>
-//                         <img className="rounded-t-lg" src={item.recipe.images.SMALL.url} alt="" />
-//                     </a>
-//                     <div className="p-5">
-//                         <a href="#" onClick={() => openModal(item.recipe)}>
-//                             <h3 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{item.recipe.label}</h3>
-//                         </a>
-//                     </div>
-//                 </div>
-//             )) : null}
-//             <RecipeModal showModal={showModal} closeModal={closeModal} recipe={selectedRecipe} />
-//         </div>
-//     );
-// };
-
-// export default RecipeWigets;
 import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import RecipeModal from '../Recipe-Modal/RecipeModal';
-
+import { RootState } from '../../app/store';
+import { RecipeType, SearchResult } from '../common/Interfaces';
 const RecipeWidgets = () => {
-    const searchResult = useSelector((state: any) => state.receipe.searchResult);
+    const searchResult = useSelector((state: RootState) => state.recipe.searchResult);
     const [showModal, setShowModal] = useState(false);
-    const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const [selectedRecipe, setSelectedRecipe] = useState<RecipeType|null>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
-
     useEffect(() => {
         const titleElement = titleRef.current;
         if (titleElement) {
@@ -53,18 +17,16 @@ const RecipeWidgets = () => {
             }
         }
     }, [searchResult]);
-
-    const openModal = (recipe: any) => {
+    const openModal = (recipe: RecipeType) => {
         setSelectedRecipe(recipe);
         setShowModal(true);
     };
     const closeModal = () => {
         setShowModal(false);
     };
-
     return (
         <div className="recipe-widget-container grid grid-cols-5 m-5">
-            {searchResult.length > 0 ? searchResult.map((item: any, index: number) => (
+            {searchResult.length > 0 ? searchResult.map((item: SearchResult, index: number) => (
                 <div key={index} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-5">
                     <a href="#" onClick={() => openModal(item.recipe)}>
                         <img className="rounded-t-lg" src={item.recipe.images.SMALL.url} alt="" />
@@ -87,5 +49,4 @@ const RecipeWidgets = () => {
         </div>
     );
 };
-
 export default RecipeWidgets;

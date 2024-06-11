@@ -1,5 +1,4 @@
 import { PropTypes } from "../common/Interfaces";
-
 const RecipeModal = ({ showModal, closeModal, recipe }: PropTypes) => {
   return (
     <>
@@ -29,7 +28,7 @@ const RecipeModal = ({ showModal, closeModal, recipe }: PropTypes) => {
                   </p>
                   <p className="text-base leading-relaxed text-gray-500 mt-5">
                     <strong>Nutritional Details:</strong><br />
-                   <p className="text-center"> {recipe?.healthLabels.slice(0, 4).join(", ")}</p>
+                    <p className="text-center"> {recipe?.healthLabels.slice(0, 4).join(", ")}</p>
                   </p>
                 </div>
               </div>
@@ -72,5 +71,4 @@ const RecipeModal = ({ showModal, closeModal, recipe }: PropTypes) => {
     </>
   );
 };
-
 export default RecipeModal;
