@@ -5,7 +5,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { handleSearchChange, searchResult } from "../../features/recipeAppSlice";
 const Navbar = () => {
-    const searchInput = useSelector((state: any) => state.recipe.searchInput)
+    const searchInput = useSelector((state: any) => state.receipe.searchInput)
     const dispatch = useDispatch()
     const apiUrl = process.env.REACT_APP_RECIPE_SEARCH_API
     const params = {

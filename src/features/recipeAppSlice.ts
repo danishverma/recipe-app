@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { InitialState } from '../Components/Interfaces/Interfaces'
+import { InitialState, SearchResult } from '../Components/common/Interfaces'
 const initialState: InitialState = {
     searchInput : '',
     searchResult: []
@@ -18,4 +18,5 @@ export const RecipeAppSlice = createSlice({
     }
 })
 export const {handleSearchChange, searchResult} = RecipeAppSlice.actions
+// export const selectRecipeApp = (state: RootState) => state.receipe.value
 export default RecipeAppSlice.reducer
