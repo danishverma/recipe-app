@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import RecipeModal from '../Recipe-Modal/RecipeModal';
 import { RootState } from '../../app/store';
 import { RecipeType, SearchResult } from '../common/Interfaces';
+import Skeleton from 'react-loading-skeleton'
 const RecipeWidgets = () => {
     const searchResult = useSelector((state: RootState) => state.recipe.searchResult);
     const [showModal, setShowModal] = useState(false);
@@ -29,7 +30,8 @@ const RecipeWidgets = () => {
             {searchResult.length > 0 ? searchResult.map((item: SearchResult, index: number) => (
                 <div key={index} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-5">
                     <a href="#" onClick={() => openModal(item.recipe)}>
-                        <img className="rounded-t-lg" src={item.recipe.images.SMALL.url} alt="" />
+                        { item.recipe.images.SMALL.url ? 
+                        <img className="rounded-t-lg" src={item.recipe.images.SMALL.url} alt="" />:<Skeleton count={10}/>}
                     </a>
                     <div className="p-5">
                         <a href="#" onClick={() => openModal(item.recipe)}>
