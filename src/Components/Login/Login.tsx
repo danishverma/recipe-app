@@ -15,6 +15,8 @@ const Login = () => {
         await axios.post(`${process.env.REACT_APP_LOGIN_API}`, data)
             .then((res) => {
                 console.log(res);
+                console.log(res.data.token);
+                localStorage.setItem('token',res.data.token)
                 toast.success(res.data.message);
                 reset();
             })
@@ -22,7 +24,6 @@ const Login = () => {
                 console.error('err ', err); toast.error(err.response.data.message)
             })
     };
-
     return (
         <>
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

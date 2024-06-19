@@ -5,7 +5,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const SignUp = () => {
-  console.log('process.env.REACT_APP_SIGNUP_API', process.env.REACT_APP_SIGNUP_API);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<SignUpValues>({
     mode: "all"
@@ -14,7 +13,13 @@ const SignUp = () => {
   const onSubmitHandler = (data: SignUpValues) => {
     console.log(data);
     axios.post(`${process.env.REACT_APP_SIGNUP_API}`, data)
-      .then((res) => { console.log(res.data); toast.success(res.data.message); reset() })
+      .then((res) => {
+        console.log(res.data);
+        console.log(res.data.token);
+        localStorage.setItem('token',res.data.token)
+        toast.success(res.data.message);
+        reset()
+      })
       .catch((err) => { console.error('err ', err); toast.error(err.response.data.message) })
   };
 

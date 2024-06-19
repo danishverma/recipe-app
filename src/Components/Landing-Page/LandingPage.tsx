@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import Login from "../Login/Login"
 import Navbar from "../Navbar/Navbar"
 import RecipeWigets from "../Recipe-Widgets/RecipeWidgets"
