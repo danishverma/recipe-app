@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginValues } from '../common/Interfaces';
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
-
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors, isDirty, isValid }, reset } = useForm<LoginValues>({
         mode: "all"
     });
@@ -19,6 +19,7 @@ const Login = () => {
                 localStorage.setItem('token',res.data.token)
                 toast.success(res.data.message);
                 reset();
+                navigate("/")
             })
             .catch((err) => {
                 console.error('err ', err); toast.error(err.response.data.message)
@@ -40,10 +41,7 @@ const Login = () => {
                                 <input  {...register("email",
                                     {
                                         required: 'Email is Required',
-                                        pattern: {
-                                            value: /^\S+@\S+$/i,
-                                            message: 'Invalid email address'
-                                        }
+                                        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "Invalid email address" }
                                     })} id="email" name="email" type="email" autoComplete="email" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p className="mt-1 text-xs text-red-600">{errors.email?.message}</p>
@@ -57,13 +55,13 @@ const Login = () => {
                                 </div> */}
                             </div>
                             <div className="mt-2">
-                                <input {...register("password", { required: 'Password is Required', minLength: { value: 6, message: 'Password must be at least 6 characters' } })} id="password" name="password" type="password" autoComplete="current-password" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <input {...register("password", { required: 'Password is Required' })} id="password" name="password" type="password" autoComplete="current-password" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p className="mt-1 text-xs text-red-600">{errors.password?.message}</p>
                         </div>
 
                         <div>
-                            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                            <button type="submit"  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                         </div>
                     </form>
 
