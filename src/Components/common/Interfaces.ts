@@ -28,3 +28,16 @@ export interface PropTypes {
     closeModal: () => void;
     recipe: RecipeType | null;
 }
+
+export interface SignUpValues {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    contact: number|null;
+}
+
+export interface  LoginValues {
+    email: string;
+    password: string;
+}
