@@ -13,6 +13,7 @@ export interface RecipeType {
     healthLabels: String[];
     calories: number;
     ingredients: String[];
+    digest: String[];
 }
 export interface ImagesType {
     SMALL: ImgSizeTypes;
