@@ -21,7 +21,7 @@ const RecipeModal = ({ showModal, closeModal, recipe }: PropTypes) => {
                   <p className="text-base leading-relaxed text-gray-500">
                     <strong>Ingredients:</strong>
                     <ul>
-                      {recipe?.ingredientLines.map((ingredient: any, index: number) => (
+                      {recipe?.ingredientLines.map((ingredient: String, index: number) => (
                         <li key={index}>{index + 1}. {ingredient}</li>
                       ))}
                     </ul>
@@ -30,6 +30,14 @@ const RecipeModal = ({ showModal, closeModal, recipe }: PropTypes) => {
                     <strong>Nutritional Details:</strong><br />
                     <p className="text-center"> {recipe?.healthLabels.slice(0, 4).join(", ")}</p>
                   </p>
+                  {recipe?.digest ? recipe?.digest.length > 0 ? recipe?.digest.slice(0, 8).map((nutrients: any, index: number) => (
+                    <ul className="nutrients-list">
+                      <li className="list-none flex gap-2 text-base leading-relaxed text-gray-500" key={index}>
+                        {nutrients.label}
+                        <span className="ms-auto">{Math.round(nutrients.total)}{nutrients.unit}</span>
+                      </li>
+                    </ul>
+                  )) : undefined : undefined}
                 </div>
               </div>
               <div className="p-4">

@@ -68,7 +68,7 @@ const RecipeWidgets = () => {
                     </div>
                     <div className="p-5">
                         <a href="#" onClick={() => openModal(item.recipe)}>
-                            <h3 ref={titleRef} className="mb-2 font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">{item.recipe.label}</h3>
+                            <h3 ref={titleRef} className="mb-2 font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2 hover:text-cyan-500">{item.recipe.label}</h3>
                         </a>
                         <div className='flex text-xs justify-center'>
                             <p className='text-cyan-500'>{Math.round(item.recipe.calories)} </p>
