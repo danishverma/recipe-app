@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SignUpValues } from '../common/Interfaces';
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const SignUp = () => {
-
+  const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors }, reset } = useForm<SignUpValues>({
     mode: "all"
   });
@@ -16,9 +16,10 @@ const SignUp = () => {
       .then((res) => {
         console.log(res.data);
         console.log(res.data.token);
-        localStorage.setItem('token',res.data.token)
+        localStorage.setItem('token', res.data.token)
         toast.success(res.data.message);
         reset()
+        navigate("/")
       })
       .catch((err) => { console.error('err ', err); toast.error(err.response.data.message) })
   };
@@ -37,14 +38,24 @@ const SignUp = () => {
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">First Name</label>
                 <div className="mt-2">
-                  <input {...register("first_name", { required: "First Name is Required", minLength: { value: 3, message: "First Name must be more than 3 characters" }, maxLength: { value: 15, message: "First Name must be 15 characters or less" } })} id="firstName" name="first_name" type="text" autoComplete="name" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <input {...register("first_name", {
+                    required: "First Name is Required",
+                    pattern: { value: /^[a-zA-Z\s-]+$/, message: "First Name cannot contain any special character" },
+                    minLength: { value: 3, message: "First Name must be more than 3 characters" }, maxLength: { value: 15, message: "First Name must be 15 characters or less" }
+                  })} id="firstName" name="first_name" type="text" autoComplete="name" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
                 <p className="mt-1 text-xs text-red-600">{errors.first_name?.message}</p>
               </div>
               <div>
                 <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
                 <div className="mt-2">
-                  <input {...register("last_name", { required: "Last Name is Required", minLength: { value: 3, message: "Last Name must be more than 3 characters" }, maxLength: { value: 20, message: "Last Name must be 20 characters or less" } })} id="lastName" name="last_name" type="text" autoComplete="name" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <input {...register("last_name",
+                    {
+                      required: "Last Name is Required",
+                      pattern: { value: /^[a-zA-Z\s-]+$/, message: "Last Name cannot contain any special character" },
+                      minLength: { value: 3, message: "Last Name must be more than 3 characters" },
+                      maxLength: { value: 20, message: "Last Name must be 20 characters or less" }
+                    })} id="lastName" name="last_name" type="text" autoComplete="name" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
                 <p className="mt-1 text-xs text-red-600">{errors.last_name?.message}</p>
               </div>
@@ -53,7 +64,11 @@ const SignUp = () => {
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email</label>
               <div className="mt-2">
-                <input {...register("email", { required: "Email is Required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" } })} id="email" name="email" type="email" autoComplete="email" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                <input {...register("email",
+                  {
+                    required: "Email is Required",
+                    pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "Invalid email address" }
+                  })} id="email" name="email" type="email" autoComplete="email" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
               <p className="mt-1 text-xs text-red-600">{errors.email?.message}</p>
             </div>
@@ -61,7 +76,10 @@ const SignUp = () => {
             <div>
               <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
               <div className="mt-2">
-                <input {...register("password", { required: "Password is Required", minLength: { value: 6, message: "Password must be at least 6 characters" } })} id="password" name="password" type="password" autoComplete="new-password" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                <input {...register("password", {
+                  required: "Password is Required",
+                  pattern: { value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/, message: 'Password Must Contain Combination of Lowercase and Uppercase, Number, Special Character, Length must be 8-16 characters long' },
+                })} id="password" name="password" type="password" autoComplete="new-password" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
               <p className="mt-1 text-xs text-red-600">{errors.password?.message}</p>
             </div>
@@ -69,7 +87,8 @@ const SignUp = () => {
             <div>
               <label htmlFor="contact" className="block text-sm font-medium leading-6 text-gray-900">Contact</label>
               <div className="mt-2">
-                <input {...register("contact", { required: "Contact is Required", pattern: { value: /^\d+$/, message: "Contact must be in numbers" } })} id="contact" name="contact" type="text" autoComplete="tel" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                <input {...register("contact", { required: "Contact is Required", 
+                pattern: { value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, message: "Invalid Contact" } })} id="contact" name="contact" type="text" autoComplete="tel" className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
               <p className="mt-1 text-xs text-red-600">{errors.contact?.message}</p>
             </div>

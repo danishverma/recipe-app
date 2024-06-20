@@ -7,6 +7,7 @@ import { handleSearchChange, searchResult } from "../../features/recipeAppSlice"
 import { RootState } from "../../app/store";
 import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+    const token = localStorage.getItem("token")
     const navigate = useNavigate()
     const searchInput = useSelector((state: RootState) => state.recipe.searchInput)
     const dispatch = useDispatch()
@@ -42,9 +43,9 @@ const Navbar = () => {
                     <button type="submit" onClick={searchResponse} className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon></button>
                 </div>
             </form>
-            <button onClick={handleLogin} className="text-white absolute top-5 right-5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            {!token ? <button onClick={handleLogin} className="text-white absolute top-5 right-5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Login
-            </button>
+            </button> : null}
         </>
     )
 }
