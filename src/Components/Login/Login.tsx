@@ -10,9 +10,9 @@ const Login = () => {
         mode: "all"
     });
 
-    const onSubmitHandler = async (data: LoginValues) => {
+    const onSubmitHandler = (data: LoginValues) => {
         console.log(data);
-        await axios.post(`${process.env.REACT_APP_LOGIN_API}/users/login`, data)
+         axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data)
             .then((res) => {
                 console.log(res);
                 console.log(res.data.token);
