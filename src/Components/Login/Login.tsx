@@ -12,7 +12,7 @@ const Login = () => {
 
     const onSubmitHandler = async (data: LoginValues) => {
         console.log(data);
-        await axios.post(`${process.env.REACT_APP_LOGIN_API}`, data)
+        await axios.post(`${process.env.REACT_APP_LOGIN_API}/users/login/`, data)
             .then((res) => {
                 console.log(res);
                 console.log(res.data.token);
