@@ -12,6 +12,8 @@ const SignUp = () => {
 
   const onSubmitHandler = (data: SignUpValues) => {
     console.log(data);
+    console.log(`${process.env.REACT_APP_API_PREFIX}/users/register/`,'fggff');
+    
     axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register/`, data)
       .then((res) => {
         console.log(res.data);
