@@ -13,6 +13,8 @@ const Login = () => {
     const onSubmitHandler = async (data: LoginValues) => {
         try {
             // console.log(data);
+            console.log(`${process.env.REACT_APP_API_PREFIX}/users/login`, 'hhkjhk');
+            
             const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data);
             
             console.log(response);
