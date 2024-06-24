@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { handleSearchChange, searchResult } from "../../features/recipeAppSlice";
@@ -29,6 +29,9 @@ const Navbar = () => {
     const handleLogin = () => {
         navigate('/login')
     }
+    // useEffect(() => {
+    //     //. dboucing
+    // }, [text])
     return (
         <>
             <form className="max-w-md mx-auto mt-5">

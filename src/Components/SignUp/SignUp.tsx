@@ -11,20 +11,32 @@ const SignUp = () => {
   });
 
   const onSubmitHandler = (data: SignUpValues) => {
-    console.log(data);
-    console.log(`${process.env.REACT_APP_API_PREFIX}/users/register`,'fggff');
-    
     axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register`, data)
       .then((res) => {
         console.log(res.data);
-        console.log(res.data.token);
-        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('token', res.data.token);
         toast.success(res.data.message);
-        reset()
-        navigate("/")
+        reset();
+        navigate("/");
       })
-      .catch((err) => { console.error('err ', err); toast.error(err.response.data.message) })
+      .catch((err) => {
+        console.error('Error:', err);
+        if (err.response) {
+          // Client received an error response (4xx, 5xx)
+          console.log(err.response.data);
+          toast.error(err.response.data.message || 'Something went wrong');
+        } else if (err.request) {
+          // Client never received a response, or request never left
+          console.error('Request error:', err.request);
+          toast.error('Request error: Please check your network connection');
+        } else {
+          // Something else happened in making the request that triggered an error
+          console.error('Error:', err.message);
+          toast.error('Something went wrong');
+        }
+      });
   };
+  
 
   return (
     <>

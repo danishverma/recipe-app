@@ -10,20 +10,21 @@ const Login = () => {
         mode: "all"
     });
 
-    const onSubmitHandler = (data: LoginValues) => {
-        console.log(data);
-         axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data)
-            .then((res) => {
-                console.log(res);
-                console.log(res.data.token);
-                localStorage.setItem('token',res.data.token)
-                toast.success(res.data.message);
-                reset();
-                navigate("/")
-            })
-            .catch((err) => {
-                console.error('err ', err); toast.error(err.response.data.message)
-            })
+    const onSubmitHandler = async (data: LoginValues) => {
+        try {
+            // console.log(data);
+            const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data);
+            
+            console.log(response);
+            console.log(response.data.token);
+            localStorage.setItem('token', response.data.token);
+            toast.success(response.data.message);
+            reset();
+            navigate("/");
+        } catch (error: any) {
+            console.error('err ', error);
+            toast.error(error.response.message);
+        }
     };
     return (
         <>
