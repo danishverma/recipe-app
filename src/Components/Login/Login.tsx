@@ -18,14 +18,13 @@ const Login = () => {
             const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data);
             
             console.log(response);
-            console.log(response.data.token);
+            console.log(response?.data.token);
             localStorage.setItem('token', response.data.token);
-            toast.success(response.data.message);
+            toast.success(response?.data?.message);
             reset();
             navigate("/");
         } catch (error: any) {
-            console.error('err ', error);
-            toast.error(error.response.message);
+            toast.error(error?.response?.message);
         }
     };
     return (
