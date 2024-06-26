@@ -19,7 +19,7 @@ const Login = () => {
             
             console.log(response);
             console.log(response?.data.token);
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('token', response.data.data.token);
             toast.success(response?.data?.message);
             reset();
             navigate("/");
