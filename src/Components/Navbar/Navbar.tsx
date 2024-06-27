@@ -3,15 +3,15 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { handleSearchChange, searchResult } from "../../features/recipeAppSlice";
-import { RootState } from "../../app/store";
+import { handleSearchChange, searchResult } from "../../redux/Slices/recipeSearchSlice";
+import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 import recipe_icon from '../../assets/recipe .png'
 import ProfileDropDown from "../Profile-drop-down/ProfileDropdown";
 const Navbar = () => {
     const token = localStorage.getItem("token")
     const navigate = useNavigate()
-    const searchInput = useSelector((state: RootState) => state.recipe.searchInput)
+    const searchInput = useSelector((state: RootState) => state.recipeSearchSliceReducer.searchInput)
     const dispatch = useDispatch()
     const apiUrl = process.env.REACT_APP_RECIPE_SEARCH_API
     const params = {

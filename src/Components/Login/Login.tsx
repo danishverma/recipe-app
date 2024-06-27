@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginValues } from '../common/Interfaces';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { checkLoginStatus, storeUserDetails } from "../../redux/Slices/authSlice";
 
 const Login = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors, isDirty, isValid }, reset } = useForm<LoginValues>({
         mode: "all"
     });
@@ -20,6 +23,8 @@ const Login = () => {
             console.log(response);
             console.log(response?.data.token);
             localStorage.setItem('token', response.data.data.token);
+            dispatch(checkLoginStatus(localStorage.getItem('token')))
+            dispatch(storeUserDetails(response.data.data.id))
             toast.success(response?.data?.message);
             reset();
             navigate("/");

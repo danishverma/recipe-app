@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import recipeAppReducer from '../features/recipeAppSlice'
+import recipeSearchSliceReducer from './Slices/recipeSearchSlice'
+import authSliceReducer from './Slices/authSlice'
 export const store = configureStore({
   reducer: {
-    recipe: recipeAppReducer
+     recipeSearchSliceReducer,
+     authSliceReducer
   },
 })
 export type RootState = ReturnType<typeof store.getState>

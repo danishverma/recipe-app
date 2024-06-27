@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import RecipeModal from '../Recipe-Modal/RecipeModal';
-import { RootState } from '../../app/store';
+import { RootState } from '../../redux/store';
 import { RecipeType, SearchResult } from '../common/Interfaces';
 import Skeleton from 'react-loading-skeleton';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const RecipeWidgets = () => {
     const token = localStorage.getItem("token")
-    const searchResult = useSelector((state: RootState) => state.recipe.searchResult);
+    const searchResult = useSelector((state: RootState) => state.recipeSearchSliceReducer.searchResult);
     const [showModal, setShowModal] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState<RecipeType | null>(null);
     const [heartFilledStates, setHeartFilledStates] = useState<boolean[]>([]);
