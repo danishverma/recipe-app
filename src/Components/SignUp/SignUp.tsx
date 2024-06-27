@@ -13,7 +13,7 @@ const SignUp = () => {
   const onSubmitHandler = async (data: SignUpValues) => {
     try {
       const signUpApiResponse = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register`, data).catch((err)=>{throw err})
-         console.log(signUpApiResponse.data);
+         console.log(signUpApiResponse.data.data.token);
          localStorage.setItem('token', signUpApiResponse.data.data.token);
          toast.success(signUpApiResponse.data.message);
          reset();
