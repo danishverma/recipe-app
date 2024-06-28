@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { InitialState, SearchResult } from '../Components/common/Interfaces'
+import { InitialState, SearchResult } from '../../Components/common/Interfaces'
 const initialState: InitialState = {
     searchInput : '',
     searchResult: []
 }
-export const RecipeAppSlice = createSlice({
-    name: 'recipeApp',
+export const RecipeSearchSlice = createSlice({
+    name: 'recipeSearchSlice',
     initialState,
     reducers: {
         handleSearchChange: (state, action: PayloadAction<string>) => {
@@ -17,5 +17,5 @@ export const RecipeAppSlice = createSlice({
         }
     }
 })
-export const {handleSearchChange, searchResult} = RecipeAppSlice.actions
-export default RecipeAppSlice.reducer
+export const {handleSearchChange, searchResult} = RecipeSearchSlice.actions
+export default RecipeSearchSlice.reducer

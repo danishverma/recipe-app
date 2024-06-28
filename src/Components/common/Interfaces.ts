@@ -41,3 +41,11 @@ export interface  LoginValues {
     email: string;
     password: string;
 }
+
+export interface UserDetails {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    contact: number|null;
+}
