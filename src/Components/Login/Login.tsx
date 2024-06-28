@@ -21,9 +21,10 @@ const Login = () => {
             const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data);
             
             console.log(response);
-            console.log(response?.data.token);
             localStorage.setItem('token', response.data.data.token);
             dispatch(checkLoginStatus(localStorage.getItem('token')))
+            console.log(response.data.data.id, 'id');
+            
             dispatch(storeUserDetails(response.data.data.id))
             toast.success(response?.data?.message);
             reset();
