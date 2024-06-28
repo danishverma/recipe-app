@@ -57,10 +57,10 @@ const ProfileDropDown = () => {
             <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-1">
               {userDetails?.first_name+' '+userDetails?.last_name}
             </a>
-            {/* <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-2">
-              License
+            <a href="" onClick={()=>navigate("/wishlist")} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-2">
+              Wishlist
             </a>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-0">
+            {/* <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-0">
               Account settings
             </a> */}
             {/* <form method="POST" action="#" role="none"> */}
