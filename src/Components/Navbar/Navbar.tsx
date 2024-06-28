@@ -38,7 +38,7 @@ const Navbar = () => {
         <div className="navbar-wrapper flex items-center justify-between mx-3">
             <div className="recipe-img-div h-12 flex">
                 <img src={recipe_icon} alt="" className="h-full" />
-                <p className="text-blue-700 font-semibold text-xl">&nbsp;RecipeHUB</p>
+                <p className="text-blue-700 font-semibold text-xl">&nbsp;RecipeFinder</p>
             </div>
             <form className="max-w-md mx-auto mt-5 flex items-center flex-grow">
                 <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>

@@ -10,31 +10,18 @@ const SignUp = () => {
     mode: "all"
   });
 
-  const onSubmitHandler = (data: SignUpValues) => {
-    axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register`, data)
-      .then((res) => {
-        console.log(res.data);
-        localStorage.setItem('token', res.data.token);
-        toast.success(res.data.message);
-        reset();
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error('Error:', err);
-        if (err.response) {
-          // Client received an error response (4xx, 5xx)
-          console.log(err.response.data);
-          toast.error(err.response.data.message || 'Something went wrong');
-        } else if (err.request) {
-          // Client never received a response, or request never left
-          console.error('Request error:', err.request);
-          toast.error('Request error: Please check your network connection');
-        } else {
-          // Something else happened in making the request that triggered an error
-          console.error('Error:', err.message);
-          toast.error('Something went wrong');
-        }
-      });
+  const onSubmitHandler = async (data: SignUpValues) => {
+    try {
+      const signUpApiResponse = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register`, data).catch((err)=>{throw err})
+         console.log(signUpApiResponse.data.data.token);
+         localStorage.setItem('token', signUpApiResponse.data.data.token);
+         toast.success(signUpApiResponse.data.message);
+         reset();
+         navigate("/");
+      
+    } catch (error: any) {
+      toast.error(error.response.data.message)
+    }
   };
   
 

@@ -16,11 +16,15 @@ const Login = () => {
     const onSubmitHandler = async (data: LoginValues) => {
         try {
             // console.log(data);
-            console.log(`${process.env.REACT_APP_API_PREFIX}/users/login`, 'hhkjhk');
+            // console.log(`${process.env.REACT_APP_API_PREFIX}/users/login`, 'hhkjhk')
             
             const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data);
             
             console.log(response);
+            const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data).catch((err)=>{
+                throw err
+            })
+            // console.log(response);
             localStorage.setItem('token', response.data.data.token);
             dispatch(checkLoginStatus(localStorage.getItem('token')))
             console.log(response.data.data.id, 'id');
@@ -30,7 +34,7 @@ const Login = () => {
             reset();
             navigate("/");
         } catch (error: any) {
-            toast.error(error?.response?.message);
+            toast.error(error.response.data.message);
         }
     };
     return (
