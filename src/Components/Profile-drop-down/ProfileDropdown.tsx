@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { UserDetails } from '../common/Interfaces';
 import { useNavigate } from 'react-router-dom';
+import { checkIsLoading } from '../../redux/Slices/loader';
 const ProfileDropDown = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetails>()
   const toggleDropdown = () => {
@@ -17,6 +19,7 @@ const ProfileDropDown = () => {
   useEffect(()=>{
     const apiResponse = async() => {
       try {
+        dispatch(checkIsLoading(true))
         const user = await axios.get(`${process.env.REACT_APP_API_PREFIX}/users/${userId}`).catch((err)=>{
           throw err
         })
@@ -24,6 +27,8 @@ const ProfileDropDown = () => {
         
       } catch (error) {
         throw error
+      } finally {
+        dispatch(checkIsLoading(false))
       }
     }
     apiResponse()
@@ -57,10 +62,10 @@ const ProfileDropDown = () => {
             <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-1">
               {userDetails?.first_name+' '+userDetails?.last_name}
             </a>
-            {/* <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-2">
-              License
+            <a href="" onClick={()=>navigate("/wishlist")} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-2">
+              Wishlist
             </a>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-0">
+            {/* <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="menu-item-0">
               Account settings
             </a> */}
             {/* <form method="POST" action="#" role="none"> */}
