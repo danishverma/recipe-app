@@ -5,8 +5,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { checkLoginStatus, storeUserDetails } from "../../redux/Slices/authSlice";
+import { useState } from "react";
+import Loading from "../Loader/Loading";
 
 const Login = () => {
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors, isDirty, isValid }, reset } = useForm<LoginValues>({
@@ -17,7 +20,7 @@ const Login = () => {
         try {
             // console.log(data);
             // console.log(`${process.env.REACT_APP_API_PREFIX}/users/login`, 'hhkjhk')
-            
+            setLoading(true)
             const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data).catch((err)=>{
                 throw err
             })
@@ -32,10 +35,13 @@ const Login = () => {
             navigate("/");
         } catch (error: any) {
             toast.error(error.response.data.message);
+        } finally {
+            setLoading(false)
         }
     };
     return (
         <>
+        {loading && <Loading /> }
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
