@@ -3,15 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignUpValues } from '../common/Interfaces';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { checkIsLoading } from "../../redux/Slices/loader";
 
 const SignUp = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors }, reset } = useForm<SignUpValues>({
     mode: "all"
   });
 
   const onSubmitHandler = async (data: SignUpValues) => {
     try {
+      dispatch(checkIsLoading(true))
       const signUpApiResponse = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register`, data).catch((err)=>{throw err})
          console.log(signUpApiResponse.data.data.token);
          localStorage.setItem('token', signUpApiResponse.data.data.token);
@@ -21,6 +25,8 @@ const SignUp = () => {
       
     } catch (error: any) {
       toast.error(error.response.data.message)
+    } finally {
+      dispatch(checkIsLoading(false))
     }
   };
   

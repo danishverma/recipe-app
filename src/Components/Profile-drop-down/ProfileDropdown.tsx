@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { UserDetails } from '../common/Interfaces';
 import { useNavigate } from 'react-router-dom';
+import { checkIsLoading } from '../../redux/Slices/loader';
 const ProfileDropDown = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetails>()
   const toggleDropdown = () => {
@@ -17,6 +19,7 @@ const ProfileDropDown = () => {
   useEffect(()=>{
     const apiResponse = async() => {
       try {
+        dispatch(checkIsLoading(true))
         const user = await axios.get(`${process.env.REACT_APP_API_PREFIX}/users/${userId}`).catch((err)=>{
           throw err
         })
@@ -24,6 +27,8 @@ const ProfileDropDown = () => {
         
       } catch (error) {
         throw error
+      } finally {
+        dispatch(checkIsLoading(false))
       }
     }
     apiResponse()

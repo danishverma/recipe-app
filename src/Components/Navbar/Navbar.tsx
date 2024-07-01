@@ -8,6 +8,7 @@ import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 import recipe_icon from '../../assets/recipe .png'
 import ProfileDropDown from "../Profile-drop-down/ProfileDropdown";
+import { checkIsLoading } from "../../redux/Slices/loader";
 const Navbar = () => {
     const token = localStorage.getItem("token")
     const navigate = useNavigate()
@@ -22,8 +23,10 @@ const Navbar = () => {
     }
     const searchResponse = (event: React.FormEvent) => {
         event.preventDefault()
+        dispatch(checkIsLoading(true));
         axios.get(`${apiUrl}`, { params })
             .then(res => { console.log(res.data.hits); dispatch(searchResult(res.data.hits)) })
+            .finally(()=>{dispatch(checkIsLoading(false))})
     }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(handleSearchChange(event.target.value))

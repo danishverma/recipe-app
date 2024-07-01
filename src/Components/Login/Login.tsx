@@ -3,8 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginValues } from '../common/Interfaces';
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { checkLoginStatus, storeUserDetails } from "../../redux/Slices/authSlice";
+import { useState } from "react";
+import Loading from "../Loader/Loading";
+import { RootState } from "../../redux/store";
+import { checkIsLoading } from "../../redux/Slices/loader";
 
 const Login = () => {
     const navigate = useNavigate()
@@ -15,13 +19,10 @@ const Login = () => {
 
     const onSubmitHandler = async (data: LoginValues) => {
         try {
-            // console.log(data);
-            // console.log(`${process.env.REACT_APP_API_PREFIX}/users/login`, 'hhkjhk')
-            
+            dispatch(checkIsLoading(true))
             const response = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/login`, data).catch((err)=>{
                 throw err
             })
-            // console.log(response);
             localStorage.setItem('token', response.data.data.token);
             dispatch(checkLoginStatus(localStorage.getItem('token')))
             console.log(response.data.data.id, 'id');
@@ -32,6 +33,8 @@ const Login = () => {
             navigate("/");
         } catch (error: any) {
             toast.error(error.response.data.message);
+        } finally {
+            dispatch(checkIsLoading(false))
         }
     };
     return (
