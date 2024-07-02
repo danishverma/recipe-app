@@ -3,15 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginValues } from '../common/Interfaces';
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { checkLoginStatus, storeUserDetails } from "../../redux/Slices/authSlice";
+import { useDispatch } from "react-redux";
+import { checkLoginStatus } from "../../redux/Slices/authSlice";
 import { useState } from "react";
-import Loading from "../Loader/Loading";
-import { RootState } from "../../redux/store";
 import { checkIsLoading } from "../../redux/Slices/loader";
 
 const Login = () => {
-    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors, isDirty, isValid }, reset } = useForm<LoginValues>({
@@ -27,8 +24,7 @@ const Login = () => {
             localStorage.setItem('token', response.data.data.token);
             dispatch(checkLoginStatus(localStorage.getItem('token')))
             console.log(response.data.data.id, 'id');
-            
-            dispatch(storeUserDetails(response.data.data.id))
+            localStorage.setItem('id', response.data.data.id)
             toast.success(response?.data?.message);
             reset();
             navigate("/");

@@ -49,3 +49,8 @@ export interface UserDetails {
     password: string;
     contact: number|null;
 }
+
+export interface InitialStateAuth {
+    isLoggedIn: string;
+    userDetails: UserDetails;
+}
