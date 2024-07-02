@@ -1,8 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-const initialState = {
+import { InitialStateAuth, UserDetails } from '../../Components/common/Interfaces'
+const initialState: InitialStateAuth = {
     isLoggedIn: '',
-    userDetails: ''
+    userDetails: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        contact: null
+    }
 }
 export const AuthSlice = createSlice({
     name: 'authSlice',
@@ -11,7 +18,7 @@ export const AuthSlice = createSlice({
        checkLoginStatus: (state, action) => {
         state.isLoggedIn = action.payload
        },
-       storeUserDetails: (state, action) => {
+       storeUserDetails: (state, action:PayloadAction<UserDetails>) => {
         state.userDetails = action.payload
        }
     }

@@ -1,38 +1,17 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { UserDetails } from '../common/Interfaces';
 import { useNavigate } from 'react-router-dom';
-import { checkIsLoading } from '../../redux/Slices/loader';
 const ProfileDropDown = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
-  const [userDetails, setUserDetails] = useState<UserDetails>()
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  const userId = useSelector((state: RootState)=> state.authSliceReducer.userDetails)
-  console.log(userId, 'userId');
   
-  useEffect(()=>{
-    const apiResponse = async() => {
-      try {
-        dispatch(checkIsLoading(true))
-        const user = await axios.get(`${process.env.REACT_APP_API_PREFIX}/users/${userId}`).catch((err)=>{
-          throw err
-        })
-        setUserDetails(user.data.data.data)
-        
-      } catch (error) {
-        throw error
-      } finally {
-        dispatch(checkIsLoading(false))
-      }
-    }
-    apiResponse()
-  },[userId])
+  const userDetails = useSelector((state: RootState) => state.authSliceReducer.userDetails);
+  console.log(userDetails,'ggjhghg');
+  
   const logout = () => {
     localStorage.removeItem("token")
     navigate("/")
