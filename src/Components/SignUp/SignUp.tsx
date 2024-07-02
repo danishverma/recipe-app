@@ -19,6 +19,7 @@ const SignUp = () => {
       const signUpApiResponse = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register`, data).catch((err)=>{throw err})
          console.log(signUpApiResponse.data.data.token);
          localStorage.setItem('token', signUpApiResponse.data.data.token);
+         localStorage.setItem('id', signUpApiResponse.data.data.id)
          toast.success(signUpApiResponse.data.message);
          reset();
          navigate("/");
