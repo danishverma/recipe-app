@@ -6,9 +6,11 @@ import { RecipeType, SearchResult } from '../common/Interfaces';
 import Skeleton from 'react-loading-skeleton';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 
 const RecipeWidgets = () => {
     const token = localStorage.getItem("token")
+    const userId = localStorage.getItem("id")
     const searchResult = useSelector((state: RootState) => state.recipeSearchSliceReducer.searchResult);
     const [showModal, setShowModal] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState<RecipeType | null>(null);
@@ -38,11 +40,26 @@ const RecipeWidgets = () => {
         setActiveTooltipIndex(null);
     };
 
-    const toggleHeart = (index: number) => {
+    const toggleHeart = async (index: number) => {
         // Toggle heartFilledStates[index] to change the filled state for the specific widget
         const newHeartFilledStates = [...heartFilledStates];
         newHeartFilledStates[index] = !newHeartFilledStates[index];
         setHeartFilledStates(newHeartFilledStates);
+
+        if(token && userId) {
+            const recipe = searchResult[index].recipe
+            const data  = {
+                recipe,
+                user_id: userId
+            }
+            try {
+                const apiResponse = await axios.post(`${process.env.REACT_APP_API_PREFIX}/wishlist/add`, data).catch(err => {
+                    throw err
+                })
+            } catch (error) {
+                throw error
+            }
+        }
     };
 
     return (
