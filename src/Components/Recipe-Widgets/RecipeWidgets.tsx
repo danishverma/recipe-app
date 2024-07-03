@@ -23,6 +23,12 @@ const RecipeWidgets = () => {
         setHeartFilledStates(new Array(searchResult.length).fill(false));
     }, [searchResult]);
 
+    // useEffect(() => {
+    //     // Mark recipes that are in the wishlist
+    //     const filledStates = searchResult.map((item) => wishlistRecipes.some((w: any) => w.recipe === item.recipe));
+    //     setHeartFilledStates(filledStates);
+    // }, [searchResult, wishlistRecipes]);
+
     const openModal = (recipe: RecipeType) => {
         setSelectedRecipe(recipe);
         setShowModal(true);
