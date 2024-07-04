@@ -54,3 +54,14 @@ export interface InitialStateAuth {
     isLoggedIn: string;
     userDetails: UserDetails;
 }
+
+export interface WishlistType {
+    id: string;
+    user_id: string;
+    recipe: RecipeType[];
+}
+
+export interface WishlistInitialState {
+    wishlistRecipes: WishlistType[];
+    heartFilled: boolean[];
+}
