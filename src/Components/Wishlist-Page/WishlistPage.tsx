@@ -4,14 +4,19 @@ import RecipeModal from "../Recipe-Modal/RecipeModal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHeart } from "@fortawesome/free-solid-svg-icons"
 import { RecipeType } from "../common/Interfaces"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../redux/store"
+import { handleWishlistRecipes, removeWishlistRecipe, toggleHeart } from "../../redux/Slices/Wishlist-slice/wishlistslice"
 
 const WishlistPage =  () => {
+    const dispatch = useDispatch()
     const userId = localStorage.getItem('id')
     const token = localStorage.getItem('token')
     const [showModal, setShowModal] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState<RecipeType | null>(null);
-    const [heartFilledStates, setHeartFilledStates] = useState<boolean[]>([]);
-    const [wishlistRecipes, setWishlistRecipes] = useState([])
+    // const [heartFilledStates, setHeartFilledStates] = useState<boolean[]>([]);
+    const heartFilled = useSelector((state: RootState) => state.wishlistRecipeSliceReducer.heartFilled)
+    const wishlistRecipes = useSelector((state: RootState) => state.wishlistRecipeSliceReducer.wishlistRecipes)
     const titleRef = useRef<HTMLHeadingElement>(null);
     useEffect(() => {
         const fetchData = async () => {
@@ -19,8 +24,8 @@ const WishlistPage =  () => {
                 const apiResponse = await axios.get(`${process.env.REACT_APP_API_PREFIX}/wishlist/${userId}`).catch(err => {
                     throw err
                 })
-                console.log(apiResponse.data.data[0].recipe.calories, 'gjfjkfgfg');
-                setWishlistRecipes(apiResponse.data.data)
+                console.log(apiResponse.data.data[0]?.recipe.calories, 'gjfjkfgfg');
+                dispatch(handleWishlistRecipes(apiResponse.data.data))
                 
             } catch (error) {
                 throw error
@@ -28,11 +33,18 @@ const WishlistPage =  () => {
         } 
         fetchData()
     }, [userId])
-    const toggleHeart = async (index: number) => {
-        // Toggle heartFilledStates[index] to change the filled state for the specific widget
-        const newHeartFilledStates = [...heartFilledStates];
-        newHeartFilledStates[index] = !newHeartFilledStates[index];
-        setHeartFilledStates(newHeartFilledStates);
+    const handleToggleHeart = async (index: number) => {
+        dispatch(toggleHeart(index))
+
+        const recipeIdToRemove = wishlistRecipes[index].id
+        try {
+            const apiResponse = await axios.delete(`${process.env.REACT_APP_API_PREFIX}/wishlist/${recipeIdToRemove}`).catch(err => {
+                throw err
+            })
+            dispatch(removeWishlistRecipe(recipeIdToRemove))
+        } catch (error) {
+            throw error
+        }
     }
     const openModal = (recipe: RecipeType) => {
         setSelectedRecipe(recipe);
@@ -60,9 +72,9 @@ const WishlistPage =  () => {
                             <FontAwesomeIcon
                                 icon={faHeart}
                                 size="lg"
-                                color={heartFilledStates[index] ? 'red' : 'white'}
+                                color={heartFilled[index] ? 'red' : 'white'}
                                 style={{ cursor: token ? 'pointer' : 'not-allowed' }}
-                                onClick={token ? () => toggleHeart(index) : undefined}
+                                onClick={token ? () => handleToggleHeart(index) : undefined}
                             />
                     </div>
                     <div className="p-5">
@@ -78,7 +90,7 @@ const WishlistPage =  () => {
                         </div>
                     </div>
                 </div>
-            )) : null}
+            )) : <div> No Recipes found </div>}
             <RecipeModal showModal={showModal} closeModal={closeModal} recipe={selectedRecipe} />
         </div>
         </>
