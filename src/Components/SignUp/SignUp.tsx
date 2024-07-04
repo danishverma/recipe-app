@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { checkIsLoading } from "../../redux/Slices/loader";
+import { checkLoginStatus } from "../../redux/Slices/authSlice";
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ const SignUp = () => {
       const signUpApiResponse = await axios.post(`${process.env.REACT_APP_API_PREFIX}/users/register`, data).catch((err)=>{throw err})
          console.log(signUpApiResponse.data.data.token);
          localStorage.setItem('token', signUpApiResponse.data.data.token);
+         dispatch(checkLoginStatus(localStorage.getItem('token')))
          localStorage.setItem('id', signUpApiResponse.data.data.id)
          toast.success(signUpApiResponse.data.message);
          reset();

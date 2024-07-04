@@ -30,7 +30,9 @@ function App() {
         dispatch(checkIsLoading(false))
       }
     }
+    if(userId){
     apiResponse()
+    }
   },[])
   return (
     <>
