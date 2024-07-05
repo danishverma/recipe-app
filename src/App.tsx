@@ -30,10 +30,14 @@ function App() {
         dispatch(checkIsLoading(false))
       }
     }
+    console.log(userId,"userid");
+    
     if(userId){
     apiResponse()
     }
-  },[])
+  },[userId])
+  console.log("userId",userId);
+  
   return (
     <>
       <BrowserRouter>
